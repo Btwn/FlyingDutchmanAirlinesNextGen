@@ -16,13 +16,13 @@ public partial class FlyingDutchmanAirlinesContext : DbContext
     {
     }
 
-    public virtual DbSet<Airport> Airport { get; set; }
+    public virtual DbSet<Airport> Airports { get; set; }
 
-    public virtual DbSet<Booking> Booking { get; set; }
+    public virtual DbSet<Booking> Bookings { get; set; }
 
-    public virtual DbSet<Customer> Customer { get; set; }
+    public virtual DbSet<Customer> Customers { get; set; }
 
-    public virtual DbSet<Flight> Flight { get; set; }
+    public virtual DbSet<Flight> Flights { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -32,47 +32,66 @@ public partial class FlyingDutchmanAirlinesContext : DbContext
     {
         modelBuilder.Entity<Airport>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Airport");
+            entity.ToTable("Airport");
 
-            entity.Property(e => e.AirportId).HasColumnName("AirportID");
+            entity.Property(e => e.AirportId)
+                .ValueGeneratedNever()
+                .HasColumnName("AirportID");
             entity.Property(e => e.City)
-                .HasMaxLength(30)
+                .IsRequired()
+                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Iata)
-                .HasMaxLength(30)
+                .IsRequired()
+                .HasMaxLength(3)
                 .IsUnicode(false)
                 .HasColumnName("IATA");
         });
 
         modelBuilder.Entity<Booking>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Booking");
+            entity.ToTable("Booking");
 
             entity.Property(e => e.BookingId).HasColumnName("BookingID");
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+
+            entity.HasOne(d => d.Customer).WithMany(p => p.Bookings)
+                .HasForeignKey(d => d.CustomerId)
+                .HasConstraintName("FK_CustomerBooking");
+
+            entity.HasOne(d => d.FlightNumberNavigation).WithMany(p => p.Bookings)
+                .HasForeignKey(d => d.FlightNumber)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_FlightNumberBooking");
         });
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Customer");
+            entity.ToTable("Customer");
 
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
             entity.Property(e => e.Name)
-                .HasMaxLength(255)
+                .IsRequired()
+                .HasMaxLength(50)
                 .IsUnicode(false);
         });
 
         modelBuilder.Entity<Flight>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Flight");
+            entity.HasKey(e => e.FlightNumber);
+
+            entity.ToTable("Flight");
+
+            entity.Property(e => e.FlightNumber).ValueGeneratedNever();
+
+            entity.HasOne(d => d.DestinationNavigation).WithMany(p => p.FlightDestinationNavigations)
+                .HasForeignKey(d => d.Destination)
+                .HasConstraintName("FK_DestinationFlight");
+
+            entity.HasOne(d => d.OriginNavigation).WithMany(p => p.FlightOriginNavigations)
+                .HasForeignKey(d => d.Origin)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_OriginFlight");
         });
 
         OnModelCreatingPartial(modelBuilder);

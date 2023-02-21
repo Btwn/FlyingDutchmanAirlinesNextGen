@@ -7,3 +7,53 @@ dotnet new sln -n "FlyingDutchmanAirlinesNextGen"
 ; Iniciar el projecto principal
 dotnet new console -n "FlyingDutchmanAirlines"
 dotnet sln FlyingDutchmanAirlinesNextGen.sln add .\FlyingDutchmanAirlines\FlyingDutchmanAirlines.csproj
+
+
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Design
+
+dotnet ef dbcontext scaffold "Data Source=CA214150;Initial Catalog=FlyingDutchmanAirlines;User ID=cadiaz;Password=130284;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -–context-dir DatabaseLayer –-output-dir DatabaseLayer/Models
+
+setx DATABASE_CONNECTION_STRING "Data Source=CA214150;Initial Catalog=FlyingDutchmanAirlines;User ID=cadiaz;Password=130284;TrustServerCertificate=True;"
+
+CREATE TABLE Customer(
+	CustomerID INT IDENTITY(1,1),
+	Name VARCHAR(50) NOT NULL,
+	CONSTRAINT PK_Customer PRIMARY KEY (CustomerID)
+) ON [PRIMARY]
+GO
+
+
+CREATE TABLE Airport(
+	AirportID INT,
+	City VARCHAR(50) NOT NULL,
+	IATA VARCHAR(3) NOT NULL,
+	CONSTRAINT PK_Airport PRIMARY KEY (AirportID)
+) ON [PRIMARY]
+GO
+
+
+CREATE TABLE Flight(
+	FlightNumber INT,
+	Origin INT,-- FOREIGN KEY REFERENCES AirPort(AirportID) ON DELETE SET NULL,
+	Destination INT,-- FOREIGN KEY REFERENCES AirPort(AirportID) ON DELETE SET NULL,
+	CONSTRAINT PK_Flight PRIMARY KEY (FlightNumber),
+	CONSTRAINT FK_OriginFlight FOREIGN KEY (Origin) REFERENCES AirPort(AirportID)
+		ON DELETE SET NULL,
+	CONSTRAINT FK_DestinationFlight FOREIGN KEY (Destination) REFERENCES AirPort(AirportID)
+
+) ON [PRIMARY]
+GO
+
+
+CREATE TABLE Booking(
+	BookingID INT IDENTITY(1,1),
+	FlightNumber INT NULL,
+	CustomerID INT NULL,
+	CONSTRAINT PK_Booking PRIMARY KEY (BookingID),
+	CONSTRAINT FK_FlightNumberBooking FOREIGN KEY (FlightNumber) REFERENCES Flight(FlightNumber)
+		ON DELETE SET NULL,
+	CONSTRAINT FK_CustomerBooking FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+) ON [PRIMARY]
+GO
+
