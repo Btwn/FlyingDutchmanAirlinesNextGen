@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace FlyingDutchmanAirlines.DatabaseLayer.Models;
+
+public partial class Booking
+{
+    public int? BookingId { get; set; }
+
+    public int? FlightNumber { get; set; }
+
+    public int? CustomerId { get; set; }
+}
