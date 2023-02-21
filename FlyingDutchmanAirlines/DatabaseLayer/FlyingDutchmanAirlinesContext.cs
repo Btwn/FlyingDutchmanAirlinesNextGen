@@ -25,8 +25,14 @@ public partial class FlyingDutchmanAirlinesContext : DbContext
     public virtual DbSet<Flight> Flights { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=CA214150;Initial Catalog=FlyingDutchmanAirlines;User ID=cadiaz;Password=130284;TrustServerCertificate=True;");
+    {
+        if (optionsBuilder.IsConfigured)
+            return;
+
+        string connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING")
+            ?? string.Empty;
+        optionsBuilder.UseSqlServer(connectionString);
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
