@@ -1,4 +1,5 @@
 using FlyingDutchmanAirlines.DatabaseLayer;
+using FlyingDutchmanAirlines.DatabaseLayer.Models;
 using FlyingDutchmanAirlines.RepositoryLayer;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,8 +18,8 @@ public class CustomerRepositoryTests
             .UseInMemoryDatabase("FlyingDutchman").Options;
         _context = new FlyingDutchmanAirlinesContext(dbContextOptions);
 
-        CustomerRepository repository = new CustomerRepository(_context);
-        Assert.IsNotNull(repository);
+        _repository = new CustomerRepository(_context);
+        Assert.IsNotNull(_repository);
     }
 
     [TestMethod]
@@ -54,5 +55,12 @@ public class CustomerRepositoryTests
     {
         bool result = await _repository.CreateCustomer("Donald Knuth" + invalidCharacter);
         Assert.IsFalse(result);
+    }
+
+
+    [TestMethod]
+    public async Task GetCustomerByName_Success()
+    {
+        Customer customer = await _repository.GetCustomerByName("Linus Torvalds");
     }
 }
