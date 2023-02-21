@@ -1,0 +1,9 @@
+mkdir FlyingDutchmanAirlinesNextGen
+cd FlyingDutchmanAirlinesNextGen
+
+; Iniciar la solucion
+dotnet new sln -n "FlyingDutchmanAirlinesNextGen"
+
+; Iniciar el projecto principal
+dotnet new console -n "FlyingDutchmanAirlines"
+dotnet sln FlyingDutchmanAirlinesNextGen.sln add .\FlyingDutchmanAirlines\FlyingDutchmanAirlines.csproj
