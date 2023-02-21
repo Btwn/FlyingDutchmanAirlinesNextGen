@@ -57,3 +57,10 @@ CREATE TABLE Booking(
 ) ON [PRIMARY]
 GO
 
+
+
+
+dotnet new mstest -n FlyingDutchmanAirlines_Tests
+dotnet sln FlyingDutchmanAirlinesNextGen.sln add FlyingDutchmanAirlines_Tests\FlyingDutchmanAirlines_Tests.csproj
+dotnet add FlyingDutchmanAirlines_Tests/FlyingDutchmanAirlines_Tests.csproj reference FlyingDutchmanAirlines/FlyingDutchmanAirlines.csproj
+
