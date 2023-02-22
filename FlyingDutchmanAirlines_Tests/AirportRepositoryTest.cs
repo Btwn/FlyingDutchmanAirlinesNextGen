@@ -64,13 +64,6 @@ namespace FlyingDutchmanAirlines_Tests
                 }
             };
 
-            //Airport newAirport = new Airport
-            //{
-            //    AirportId = 0,
-            //    City = "Nuuk",
-            //    Iata = " GOH"
-            //};
-
             _context.Airports.AddRange(airports.Values);
             await _context.SaveChangesAsync();
 

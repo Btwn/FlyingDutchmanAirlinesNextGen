@@ -14,7 +14,7 @@ namespace FlyingDutchmanAirlines.RepositoryLayer
 
         public async Task CreateBooking(int customerID, int flightNumber)
         {
-            if (customerID < 0 || flightNumber < 0)
+            if (!customerID.IsPositive() || !flightNumber.IsPositive())
             {
                 Console.WriteLine($"Argument Exception in CreateBooking! CustomerID = { customerID}, flightNumber = { flightNumber}");
                 throw new ArgumentException("Invalid arguments provided");
@@ -37,5 +37,6 @@ namespace FlyingDutchmanAirlines.RepositoryLayer
                 throw new CouldNotAddBookingToDatabaseException();
             }
         }
+
     }
 }
