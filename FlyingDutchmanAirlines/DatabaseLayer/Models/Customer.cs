@@ -15,4 +15,10 @@ public sealed class Customer
     {
         Name = name;
     }
+
+    public static bool operator == (Customer x, Customer y) =>
+        x.CustomerId == y.CustomerId
+        && x.Name == y.Name;
+
+    public static bool operator != (Customer x, Customer y) => !(x == y);
 }
