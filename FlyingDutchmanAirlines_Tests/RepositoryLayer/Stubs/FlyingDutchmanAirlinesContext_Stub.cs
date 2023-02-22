@@ -9,13 +9,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FlyingDutchmanAirlines_Tests.Stubs
+namespace FlyingDutchmanAirlines_Tests.RepositoryLayer.Stubs
 {
     public class FlyingDutchmanAirlinesContext_Stub : FlyingDutchmanAirlinesContext
     {
 
 
-        public FlyingDutchmanAirlinesContext_Stub (DbContextOptions<FlyingDutchmanAirlinesContext> options)
+        public FlyingDutchmanAirlinesContext_Stub(DbContextOptions<FlyingDutchmanAirlinesContext> options)
             : base(options)
         {
             base.Database.EnsureDeleted();
@@ -24,7 +24,7 @@ namespace FlyingDutchmanAirlines_Tests.Stubs
         public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             IEnumerable<EntityEntry> pendingChanges = ChangeTracker.Entries().Where(e => e.State == EntityState.Added);
-            
+
             IEnumerable<Booking> bookings = pendingChanges.Select(e => e.Entity).OfType<Booking>();
             if (bookings.Any(b => b.CustomerId != 1))
                 throw new Exception("Database Error!");

@@ -2,7 +2,7 @@
 using FlyingDutchmanAirlines.DatabaseLayer.Models;
 using FlyingDutchmanAirlines.Exceptions;
 using FlyingDutchmanAirlines.RepositoryLayer;
-using FlyingDutchmanAirlines_Tests.Stubs;
+using FlyingDutchmanAirlines_Tests.RepositoryLayer.Stubs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlyingDutchmanAirlines_Tests;
+namespace FlyingDutchmanAirlines_Tests.RepositoryLayer;
 
 [TestClass]
 public class BookingRepositoryTests

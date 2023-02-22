@@ -1,7 +1,6 @@
 ﻿using FlyingDutchmanAirlines.DatabaseLayer.Models;
 using FlyingDutchmanAirlines.DatabaseLayer;
 using FlyingDutchmanAirlines.RepositoryLayer;
-using FlyingDutchmanAirlines_Tests.Stubs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,8 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FlyingDutchmanAirlines.Exceptions;
+using FlyingDutchmanAirlines_Tests.RepositoryLayer.Stubs;
 
-namespace FlyingDutchmanAirlines_Tests
+namespace FlyingDutchmanAirlines_Tests.RepositoryLayer
 {
     [TestClass]
     public class FlightRepositoryTest

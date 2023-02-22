@@ -4,7 +4,7 @@ using FlyingDutchmanAirlines.Exceptions;
 using FlyingDutchmanAirlines.RepositoryLayer;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlyingDutchmanAirlines_Tests;
+namespace FlyingDutchmanAirlines_Tests.RepositoryLayer;
 
 [TestClass]
 public class CustomerRepositoryTests
