@@ -67,3 +67,5 @@ dotnet add FlyingDutchmanAirlines_Tests/FlyingDutchmanAirlines_Tests.csproj refe
 
 dotnet add package Microsoft.EntityFramework.Core.InMemory
 
+dotnet add package Moq
+
