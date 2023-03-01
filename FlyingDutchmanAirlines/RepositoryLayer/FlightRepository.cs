@@ -46,5 +46,23 @@ namespace FlyingDutchmanAirlines.RepositoryLayer
         {
             return await GetFlightByFlightNumber(flightNumber, 1, 1);
         }
+
+        //public virtual Queue<Flight> GetFlights()
+        //{
+        //    Queue<Flight> flights = new Queue<Flight>();
+        //    foreach (Flight flight in _context.Flights)
+        //    {
+        //        flights.Enqueue(flight);
+        //    }
+        //    return flights;
+        //}
+
+        public virtual IEnumerable<Flight> GetFlights()
+        {
+            foreach (Flight flight in _context.Flights)
+            {
+                yield return flight;
+            }
+        }
     }
 }

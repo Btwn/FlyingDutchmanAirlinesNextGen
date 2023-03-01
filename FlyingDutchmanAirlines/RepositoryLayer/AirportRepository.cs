@@ -2,6 +2,8 @@
 using FlyingDutchmanAirlines.DatabaseLayer.Models;
 using FlyingDutchmanAirlines.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace FlyingDutchmanAirlines.RepositoryLayer
 {
@@ -14,7 +16,15 @@ namespace FlyingDutchmanAirlines.RepositoryLayer
             _context = context;
         }
 
-        public async Task<Airport> GetAirportByID(int airportID)
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public AirportRepository()
+        {
+            this._context = new FlyingDutchmanAirlinesContext();
+            if (Assembly.GetExecutingAssembly().FullName == Assembly.GetCallingAssembly().FullName)
+                throw new Exception("This constructor should only be used for testing");
+        }
+
+        public virtual async Task<Airport> GetAirportByID(int airportID)
         {
             if (airportID < 0)
             {

@@ -7,9 +7,9 @@ public sealed class Flight
 {
     public int FlightNumber { get; set; }
 
-    public int? Origin { get; set; }
+    public int Origin { get; set; }
 
-    public int? Destination { get; set; }
+    public int Destination { get; set; }
 
     public ICollection<Booking> Bookings { get; } = new List<Booking>();
 
