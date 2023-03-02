@@ -1,7 +1,10 @@
-﻿using FlyingDutchmanAirlines.DatabaseLayer.Models;
+﻿using FlyingDutchmanAirlines.DatabaseLayer;
+using FlyingDutchmanAirlines.DatabaseLayer.Models;
 using FlyingDutchmanAirlines.Exceptions;
 using FlyingDutchmanAirlines.RepositoryLayer;
 using FlyingDutchmanAirlines.Views;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace FlyingDutchmanAirlines.ServiceLayer
 {
@@ -16,13 +19,23 @@ namespace FlyingDutchmanAirlines.ServiceLayer
             _flightRepository = flightRepository;
         }
 
-        public async IAsyncEnumerable<FlightView> GetFlights()
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public FlightService()
         {
-            Queue<Flight> flights = (Queue<Flight>)_flightRepository.GetFlights();
+            if (Assembly.GetExecutingAssembly().FullName == Assembly.GetCallingAssembly().FullName)
+                throw new Exception("This constructor should only be used for testing");
+        }
+
+        public virtual async IAsyncEnumerable<FlightView> GetFlights()
+        {
+            IEnumerable<Flight> flights = _flightRepository.GetFlights();
+
+
             foreach (Flight flight in flights)
             {
                 Airport originAirport;
                 Airport destinationAirport;
+
 
                 try
                 {

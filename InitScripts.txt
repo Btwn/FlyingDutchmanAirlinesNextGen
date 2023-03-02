@@ -69,3 +69,5 @@ dotnet add package Microsoft.EntityFramework.Core.InMemory
 
 dotnet add package Moq
 
+dotnet add package Swashbuckle.AspNetCore
+
